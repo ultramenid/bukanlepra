@@ -533,6 +533,18 @@ video {
   right: 1.25rem;
 }
 
+.bottom-32 {
+  bottom: 8rem;
+}
+
+.bottom-28 {
+  bottom: 7rem;
+}
+
+.bottom-5 {
+  bottom: 1.25rem;
+}
+
 .z-20 {
   z-index: 20;
 }
