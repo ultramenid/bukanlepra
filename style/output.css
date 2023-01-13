@@ -525,8 +525,8 @@ video {
   top: 0px;
 }
 
-.bottom-5 {
-  bottom: 1.25rem;
+.bottom-20 {
+  bottom: 5rem;
 }
 
 .right-5 {
@@ -694,4 +694,10 @@ video {
 
 .bg-redistribusi{
   background-color: #0D3B66;
+}
+
+@media (min-width: 640px) {
+  .sm\:bottom-5 {
+    bottom: 1.25rem;
+  }
 }

@@ -45,7 +45,7 @@
         <a class="flex items-center justify-center text-2xl font-bold">Lokasi Prioritas Reforma Agraria</a>
     </div>
     <div id="map" class="h-screen relative w-full z-10"></div>
-    <div class="absolute bottom-5 right-5 z-20 bg-white py-4 px-4">
+    <div class="absolute sm:bottom-5 bottom-20 right-5 z-20 bg-white py-4 px-4">
         <div class="flex items-center rounded ">
             <input checked  type="checkbox" id="identifikasi" name="identifikasi" class="w-3 h-3 accent-black bg-gray-100 border-gray-300 border rounded-full">
             <div class="w-6 h-3 bg-identifikasi ml-2"></div>
@@ -91,7 +91,7 @@
       return e;
     };
     
-    var colors = ['#F72C25', '#89023E', '#39989', '#0D3B66'],
+    var colors = ['#F72C25', '#89023E', '#339989', '#0D3B66'],
         pi2 = Math.PI * 2;
 
     pruneCluster.Cluster.Size =30;
@@ -408,6 +408,146 @@
         } else {
             console.log('remove')
             pruneCluster.RemoveMarkers(markers);
+            pruneCluster.ProcessView();
+
+        }
+    });
+
+
+    $('#pemetaan:checkbox').on('change', function() {
+        var checkbox = $(this);
+        // toggle the marker
+        if ($(checkbox).is(':checked')) {
+            console.log('add')
+            pruneCluster.RemoveMarkers(markerspemetaan);
+            kpa.forEach(function(data) { 
+                if(data.tahapan == 'Pemetaan'){
+                    const pemetaan = new PruneCluster.Marker(data.lat, data.long, {
+                        icon: iconPemetaan, 
+                        tooltip: data.tahapan,
+                        popup: '<div class="flex flex-col text-black w-full">'+
+                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
+                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
+                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
+                                '<div class="flex space-x-2">'+
+                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                    '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '</div>'+
+                            '</div>'
+                    });
+                    pemetaan.category = 1;
+                    markerspemetaan.push(pemetaan);
+                    pruneCluster.RegisterMarker(pemetaan);
+                    
+                }
+                
+            });
+            pruneCluster.ProcessView();
+        } else {
+            console.log('remove')
+            pruneCluster.RemoveMarkers(markerspemetaan);
+            pruneCluster.ProcessView();
+
+        }
+    });
+
+    $('#pengorganisasian:checkbox').on('change', function() {
+        var checkbox = $(this);
+        // toggle the marker
+        if ($(checkbox).is(':checked')) {
+            console.log('add')
+            pruneCluster.RemoveMarkers(markerspengorganisasian);
+            kpa.forEach(function(data) { 
+                if(data.tahapan == 'Pengorganisasian'){
+                    const pengorganisasian = new PruneCluster.Marker(data.lat, data.long, {
+                        icon: iconPengorganisasian, 
+                        tooltip: data.tahapan,
+                        popup: '<div class="flex flex-col text-black w-full">'+
+                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
+                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
+                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
+                                '<div class="flex space-x-2">'+
+                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                    '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '</div>'+
+                            '</div>'
+                    });
+                    pengorganisasian.category = 2;
+                    markerspengorganisasian.push(pengorganisasian);
+                    pruneCluster.RegisterMarker(pengorganisasian);
+                    
+                }
+                
+            });
+            pruneCluster.ProcessView();
+        } else {
+            console.log('remove')
+            pruneCluster.RemoveMarkers(markerspengorganisasian);
+            pruneCluster.ProcessView();
+
+        }
+    });
+
+
+    $('#redistribusi:checkbox').on('change', function() {
+        var checkbox = $(this);
+        // toggle the marker
+        if ($(checkbox).is(':checked')) {
+            console.log('add')
+            pruneCluster.RemoveMarkers(markersredistribusi);
+            kpa.forEach(function(data) { 
+                if(data.tahapan == 'Redistribusi'){
+                    const redistribusi = new PruneCluster.Marker(data.lat, data.long, {
+                        icon: iconRedistribusi, 
+                        tooltip: data.tahapan,
+                        popup: '<div class="flex flex-col text-black w-full">'+
+                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
+                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
+                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
+                                '<div class="flex space-x-2">'+
+                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                    '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '<div class="flex space-x-2">'+
+                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
+                                '</div>'+
+                                '</div>'+
+                            '</div>'
+                    });
+                    redistribusi.category = 3;
+                    markersredistribusi.push(redistribusi);
+                    pruneCluster.RegisterMarker(redistribusi);
+                    
+                }
+                
+            });
+            pruneCluster.ProcessView();
+        } else {
+            console.log('remove')
+            pruneCluster.RemoveMarkers(markersredistribusi);
             pruneCluster.ProcessView();
 
         }
