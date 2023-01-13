@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.bg-identifikasi {
+    background-color: #F72C25;
+}
+
+.bg-pemetaan {
+    background-color: #89023E;
+}
+
+.bg-pengorganisasian {
+    background-color: #339989;
+}
+
+.bg-redistribusi{
+    background-color: #0D3B66;
+}
