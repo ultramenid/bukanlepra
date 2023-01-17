@@ -41,8 +41,31 @@
 </head>
 <body>
 <div class="relative">
-    <div class="absolute top-0 w-full bg-white z-20 py-4 ">
-        <a class="flex items-center justify-center text-2xl font-bold">Lokasi Prioritas Reforma Agraria</a>
+    <div class="absolute top-0 w-full bg-white z-20  py-1">
+        <div class="mt-6">
+            <a class="flex items-center justify-center sm:text-2xl text-xl font-bold ">Lokasi Prioritas Reforma Agraria</a>
+        </div>
+        <div class=" w-full border-b border-gray-200 bg-white">
+            <div class="sm:max-w-7xl overflow-x-scroll mx-auto px-4 flex items-center sm:justify-start justify-between mt-4  ">
+                <div class="px-4 py-2 bg-white ">
+                    <a href="update.html" class="text-gray-500 sm:text-base text-xs">Update</a>
+                </div>
+                <div class="px-4 py-2 bg-gray-200 rounded-t cursor-pointer">
+                    <a href="index.html" class=" text-black font-bold sm:text-base text-xs">Map</a>
+                </div>
+                <div class="px-4 py-2 bg-white">
+                    <a href="profile.html" class="text-gray-500 sm:text-base text-xs">Profile</a>
+                </div>
+                <div class="px-4 py-2 bg-white">
+                    <a href="table.html" class="text-gray-500 sm:text-base text-xs">Table</a>
+                </div>
+                <div class="px-4 py-2 bg-white">
+                    <a href="about.html" class="text-gray-500 sm:text-base text-xs">About</a>
+                </div>
+            </div>
+        </div>
+        
+       
     </div>
     <div id="map" class="h-screen relative w-full z-10"></div>
     <div class="absolute bottom-5  right-5 z-20 bg-white py-4 px-4">
@@ -90,6 +113,7 @@
       e.population = cluster.population;
       return e;
     };
+
     
     var colors = ['#F72C25', '#89023E', '#339989', '#0D3B66'],
         pi2 = Math.PI * 2;
@@ -239,6 +263,28 @@
         html: `<span style="${styleredistribusiIcon}" />`
     })
 
+    String.prototype.toProperCase = function () {
+        return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+
+    
+    const popupContent = function(data){
+        return  '<div class="flex flex-col text-black w-full">'+
+            ' <h1 class="text-xl font-semibold capitalize">'+data.or_ngo+'.</h1>'+
+                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> Luas garapan:</a> <a style="color:black"> '+data.luas_ha+' ha</a></div>'+
+                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">Jumlah Petani:</a> <a  style="color:black">'+data.total_RTPP+'</a></div>'+
+                '<div class="flex space-x-2">'+
+                '<a style="color:black" class="font-semibold">Penggunaan:</a> <a style="color:black">'+data.penggunaan+'.</a>'+
+                '</div>'+
+                    '<div class="flex space-x-2">'+
+                    '<a style="color:black" class="font-semibold">Tahapan: </a> <a style="color:black">'+data.tahapan+'</a>' +
+                '</div>'+
+                '<div class="flex space-x-2">'+
+                    '<a style="color:black" class="font-semibold">Lokasi: </a> <a style="color:black">'+data.desa.toProperCase()+', '+data.kecamatan.toProperCase()+', '+data.kab_kota.toProperCase()+', '+data.provinsi.toProperCase()+'.</a>'+
+                '</div>'+
+                '</div>'+
+            '</div>'
+    }
     
     pruneCluster.PrepareLeafletMarker = function (marker, data, category) {
         marker.setIcon(data.icon)
@@ -259,24 +305,7 @@
             const indentifikasi = new PruneCluster.Marker(data.lat, data.long, {
                 icon: iconIdentifikasi, 
                 tooltip: data.tahapan,
-                popup: '<div class="flex flex-col text-black w-full">'+
-                    ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                        '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                        '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                        '<div class="flex space-x-2">'+
-                        '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                            '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '</div>'+
-                    '</div>'
+                popup: popupContent(data)
             });
             indentifikasi.category = 0;
             markers.push(indentifikasi);
@@ -286,24 +315,7 @@
             const pemetaan = new PruneCluster.Marker(data.lat, data.long, {
                 icon: iconPemetaan, 
                 tooltip: data.tahapan,
-                popup: '<div class="flex flex-col text-black w-full">'+
-                    ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                        '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                        '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                        '<div class="flex space-x-2">'+
-                        '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                            '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '</div>'+
-                    '</div>'
+                popup: popupContent(data)
             });
             pemetaan.category = 1;
             markerspemetaan.push(pemetaan);
@@ -312,24 +324,7 @@
             const pengorganisasian = new PruneCluster.Marker(data.lat, data.long, {
                 icon: iconPengorganisasian, 
                 tooltip: data.tahapan,
-                popup: '<div class="flex flex-col text-black w-full">'+
-                    ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                        '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                        '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                        '<div class="flex space-x-2">'+
-                        '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                            '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '</div>'+
-                    '</div>'
+                popup: popupContent(data)
             });
             pengorganisasian.category = 2;
             markerspengorganisasian.push(pengorganisasian);
@@ -338,24 +333,7 @@
             const redistribusi = new PruneCluster.Marker(data.lat, data.long, {
                 icon: iconRedistribusi,
                 tooltip: data.tahapan,
-                popup: '<div class="flex flex-col text-black w-full">'+
-                    ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                        '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                        '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                        '<div class="flex space-x-2">'+
-                        '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                            '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '<div class="flex space-x-2">'+
-                            '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                        '</div>'+
-                        '</div>'+
-                    '</div>'
+                popup: popupContent(data)
             });
             redistribusi.category = 3;
             markersredistribusi.push(redistribusi);
@@ -378,24 +356,7 @@
                     const indentifikasi = new PruneCluster.Marker(data.lat, data.long, {
                         icon: iconIdentifikasi, 
                         tooltip: data.tahapan,
-                        popup: '<div class="flex flex-col text-black w-full">'+
-                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                                '<div class="flex space-x-2">'+
-                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                    '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '</div>'+
-                            '</div>'
+                        popup: popupContent(data)
                     });
                     indentifikasi.category = 0;
                     markers.push(indentifikasi);
@@ -425,24 +386,7 @@
                     const pemetaan = new PruneCluster.Marker(data.lat, data.long, {
                         icon: iconPemetaan, 
                         tooltip: data.tahapan,
-                        popup: '<div class="flex flex-col text-black w-full">'+
-                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                                '<div class="flex space-x-2">'+
-                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                    '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '</div>'+
-                            '</div>'
+                        popup: popupContent(data)
                     });
                     pemetaan.category = 1;
                     markerspemetaan.push(pemetaan);
@@ -471,24 +415,7 @@
                     const pengorganisasian = new PruneCluster.Marker(data.lat, data.long, {
                         icon: iconPengorganisasian, 
                         tooltip: data.tahapan,
-                        popup: '<div class="flex flex-col text-black w-full">'+
-                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                                '<div class="flex space-x-2">'+
-                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                    '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '</div>'+
-                            '</div>'
+                        popup: popupContent(data)
                     });
                     pengorganisasian.category = 2;
                     markerspengorganisasian.push(pengorganisasian);
@@ -518,24 +445,7 @@
                     const redistribusi = new PruneCluster.Marker(data.lat, data.long, {
                         icon: iconRedistribusi, 
                         tooltip: data.tahapan,
-                        popup: '<div class="flex flex-col text-black w-full">'+
-                            ' <h1 class="text-xl font-semibold">'+data.tahapan+'</h1>'+
-                                '<div class="mt-4 flex space-x-2"><a style="color:black" class="font-semibold"> data:</a> <a style="color:black"> '+data.tahapan+'</a></div>'+
-                                '<div class=" flex space-x-2"><a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a></div>'+
-                                '<div class="flex space-x-2">'+
-                                '<a style="color:black" class="font-semibold">data:</a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                    '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>' +
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '<div class="flex space-x-2">'+
-                                    '<a style="color:black" class="font-semibold">data: </a> <a style="color:black">'+data.tahapan+'</a>'+
-                                '</div>'+
-                                '</div>'+
-                            '</div>'
+                        popup: popupContent(data)
                     });
                     redistribusi.category = 3;
                     markersredistribusi.push(redistribusi);
