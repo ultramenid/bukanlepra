@@ -292,7 +292,12 @@
             marker.setPopupContent(data.popup);
         } else {
             marker.bindPopup(data.popup);
-            marker.bindTooltip(data.tooltip);
+
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+              }else{
+                marker.bindTooltip(data.popup);
+              }
+            
         }
     };
 
