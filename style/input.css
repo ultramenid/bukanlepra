@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 
+.bg-nav{
+    background-color: #96404C;
+}
+
+.bg-footer{
+    background-color: #EBEFEE;
+}
+.text-bukanlepra{
+    color: #96404C;
+}
 
 .bg-identifikasi {
     background-color: #F72C25;
